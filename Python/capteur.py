@@ -6,7 +6,18 @@ import random
 import time
 import uuid
 
+# ANSI escape codes for bold and colored text
+BOLD = '\033[1m'
+RED = '\033[31m'
+GREEN = '\033[32m'
+YELLOW = '\033[33m'
+RESET = '\033[0m'
 
+
+producer = KafkaProducer(
+    bootstrap_servers=['localhost:19092'],  # Adresse du serveur Kafka
+    value_serializer=lambda x: json.dumps(x).encode('utf-8')  # Sérialisation JSON
+)
 
 def generate_transaction():
     transaction_types = ['achat', 'remboursement', 'transfert']
@@ -39,6 +50,52 @@ def generate_transaction():
     }
 
     return transaction_data
+
+
+# Envoi de 200 transactions
+for _ in range(200):
+    transaction = generate_transaction()
+    producer.send('capteur', transaction)
+    # Display the transaction with bold and color
+    print(f"{BOLD}{GREEN}Transaction envoyée:{RESET} {BOLD}{YELLOW}{json.dumps(transaction, indent=4, ensure_ascii=False)}{RESET}")
+    time.sleep(1)
+
+# Fermer le producteur
+producer.close()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #Envoyer la data sur votre conducktor
