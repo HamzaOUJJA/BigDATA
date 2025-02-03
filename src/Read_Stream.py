@@ -6,6 +6,7 @@ from pyspark.sql.types import StructType, StringType, FloatType, IntegerType, Ti
 spark = SparkSession.builder \
     .appName("KafkaSparkStreaming") \
     .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0") \
+    .config("spark.sql.parquet.writeLegacyFormat", "true") \
     .getOrCreate()
 
 

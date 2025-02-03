@@ -2,4 +2,4 @@
 /docs
 .env
 /Data
-/Docker-compose/Minio/minio
+/minio
