@@ -1,5 +1,5 @@
 
-from kafka import *
+from kafka import KafkaProducer
 import datetime as dt
 import json
 import random
@@ -13,11 +13,14 @@ GREEN = '\033[32m'
 YELLOW = '\033[33m'
 RESET = '\033[0m'
 
+rank = 0
 
 producer = KafkaProducer(
     bootstrap_servers=['localhost:19092'],  # Adresse du serveur Kafka
     value_serializer=lambda x: json.dumps(x).encode('utf-8')  # Sérialisation JSON
 )
+
+
 
 def generate_transaction():
     transaction_types = ['achat', 'remboursement', 'transfert']
@@ -28,7 +31,10 @@ def generate_transaction():
     Villes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon" , None]
     Rues = ["Rue de la République", "Rue de Paris", "rue Auguste Delaune", "Rue Gustave Courbet ", "Rue de Luxembourg", "Rue Fontaine", "Rue Zinedine Zidane", "Rue de Bretagne", "Rue Marceaux", "Rue Gambetta", "Rue du Faubourg Saint-Antoine", "Rue de la Grande Armée", "Rue de la Villette", "Rue de la Pompe", "Rue Saint-Michel" , None]
 
+    global rank
+    rank = rank + 1
     transaction_data = {
+        "rank": rank,
         "id_transaction": str(uuid.uuid4()),
         "type_transaction": random.choice(transaction_types),
         "montant": round(random.uniform(10.0, 1000.0), 2),
@@ -53,7 +59,7 @@ def generate_transaction():
 
 
 # Envoi de 200 transactions
-for _ in range(200):
+for _ in range(100):
     transaction = generate_transaction()
     producer.send('capteur', transaction)
     # Display the transaction with bold and color
@@ -63,57 +69,6 @@ for _ in range(200):
 # Fermer le producteur
 producer.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Envoyer la data sur votre conducktor
-
-
-#--------------------------------------------------------------------
-#                     MANIP SUR LES DF
-#--------------------------------------------------------------------
-#       convertir USD en EUR
-#       ajouter le TimeZone
-#       remplacer la date en string en une valeur date
-#       supprimer les transaction en erreur
-#       supprimer les valeur en None ( Adresse )
-
-
-
-# si ça vous gene faite mettez tout sur la meme partie ( en gros supprimer les sous structure pour tout mettre en 1er plan )
-# modifier le consumer avant
 
 
 
