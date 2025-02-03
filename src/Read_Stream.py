@@ -11,7 +11,6 @@ spark = SparkSession.builder \
 
 # Define JSON schema
 schema = StructType() \
-                    .add("rank", IntegerType()) \
                     .add("id_transaction", StringType()) \
                     .add("type_transaction", StringType()) \
                     .add("montant", FloatType()) \
@@ -70,7 +69,6 @@ df = df.filter(
 
 
 df = df.select(
-    col("rank"),
     col("id_transaction"),
     col("type_transaction"),
     col("montant"),

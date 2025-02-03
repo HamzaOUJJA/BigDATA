@@ -6,6 +6,9 @@ import random
 import time
 import uuid
 
+
+print("\033[1;32m        ########    Sending Data To Kafka!\033[0m")
+
 # ANSI escape codes for bold and colored text
 BOLD = '\033[1m'
 RED = '\033[31m'
@@ -13,7 +16,6 @@ GREEN = '\033[32m'
 YELLOW = '\033[33m'
 RESET = '\033[0m'
 
-rank = 0
 
 producer = KafkaProducer(
     bootstrap_servers=['localhost:19092'],  # Adresse du serveur Kafka
@@ -31,10 +33,7 @@ def generate_transaction():
     Villes = ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon" , None]
     Rues = ["Rue de la République", "Rue de Paris", "rue Auguste Delaune", "Rue Gustave Courbet ", "Rue de Luxembourg", "Rue Fontaine", "Rue Zinedine Zidane", "Rue de Bretagne", "Rue Marceaux", "Rue Gambetta", "Rue du Faubourg Saint-Antoine", "Rue de la Grande Armée", "Rue de la Villette", "Rue de la Pompe", "Rue Saint-Michel" , None]
 
-    global rank
-    rank = rank + 1
     transaction_data = {
-        "rank": rank,
         "id_transaction": str(uuid.uuid4()),
         "type_transaction": random.choice(transaction_types),
         "montant": round(random.uniform(10.0, 1000.0), 2),
